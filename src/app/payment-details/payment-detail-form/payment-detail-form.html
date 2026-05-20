@@ -1,0 +1,28 @@
+<form #form="ngForm" (submit)="onSubmit(form)" [class.submitted]="service.formSubmitted" novalidate autocomplete="off">
+  <input type="hidden" name="paymentDetailId" [value]="service.formData.paymentDetailId" />
+  <div class="mb-3 form-group">
+    <label for="card-owner-name">Card owner</label>
+    <input type="text" id="card-owner-name" class="form-control" placeholder="Jane Doe" #cardOwnerName="ngModel"
+      name="cardOwnerName" [(ngModel)]="service.formData.cardOwnerName" required [class.is-invalid]="cardOwnerName.invalid && service.formSubmitted" />
+    <div class="invalid-feedback" *ngIf="cardOwnerName.invalid && service.formSubmitted">Owner name is required.</div>
+  </div>
+  <div class="row gx-3">
+    <div class="col-md-6 mb-3 form-group">
+      <label for="security-code">Security code</label>
+      <input id="security-code" class="form-control" type="password" placeholder="CVC" #securityCode="ngModel"
+        name="securityCode" [(ngModel)]="service.formData.securityCode" required minlength="3" maxlength="3" [class.is-invalid]="securityCode.invalid && service.formSubmitted" />
+      <div class="invalid-feedback" *ngIf="securityCode.invalid && service.formSubmitted">Enter the 3-digit CVC.</div>
+    </div>
+    <div class="col-md-6 mb-3 form-group">
+      <label for="expiration-date">Expiration date</label>
+      <input type="text" id="expiration-date" class="form-control" placeholder="MM/YY" #expirationDate="ngModel"
+        name="expirationDate" [(ngModel)]="service.formData.expirationDate" required minlength="5" maxlength="5" [class.is-invalid]="expirationDate.invalid && service.formSubmitted" />
+      <div class="invalid-feedback" *ngIf="expirationDate.invalid && service.formSubmitted">Enter expiry as MM/YY.</div>
+    </div>
+  </div>
+  <div class="d-grid mt-2">
+    <button class="btn btn-primary btn-lg rounded-pill" type="submit">
+      {{ service.formData.paymentDetailId == 0 ? 'Save payment' : 'Update payment' }}
+    </button>
+  </div>
+</form>

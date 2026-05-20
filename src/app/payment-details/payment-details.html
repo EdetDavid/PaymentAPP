@@ -1,0 +1,67 @@
+<div class="dashboard-grid">
+  <section class="summary-panel rounded-4 shadow-sm p-4 mb-4">
+    <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3">
+      <div>
+        <span class="eyebrow text-primary">Payments</span>
+        <h2 class="h3 mt-2 mb-1">Payment details register</h2>
+        <p class="text-muted mb-0">Tap any saved card to preload the form, then edit or remove it with confidence.</p>
+      </div>
+      <div class="summary-pill py-2 px-3 rounded-pill bg-white text-dark shadow-sm">
+        <strong>{{ service.list.length }}</strong> cards saved
+      </div>
+    </div>
+  </section>
+
+  <div class="row gx-4 gy-4">
+    <div class="col-xl-5">
+      <div class="card-panel rounded-4 shadow-sm p-4 h-100">
+        <div class="panel-header d-flex align-items-center justify-content-between mb-4">
+          <div>
+            <h3 class="h5 mb-1">Payment form</h3>
+            <p class="text-muted mb-0">Use this form to add or update a card and keep your payment list in sync.</p>
+          </div>
+          <span class="badge bg-primary text-white">Quick action</span>
+        </div>
+
+        <app-payment-detail-form></app-payment-detail-form>
+      </div>
+    </div>
+
+    <div class="col-xl-7">
+      <div class="card-panel rounded-4 shadow-sm p-4 h-100">
+        <div class="panel-header d-flex align-items-center justify-content-between mb-4">
+          <div>
+            <h3 class="h5 mb-1">Saved payment cards</h3>
+            <p class="text-muted mb-0">Click a card to edit it or remove obsolete details instantly.</p>
+          </div>
+          <span class="badge bg-secondary text-white">Live list</span>
+        </div>
+
+        <ul class="payment-list list-unstyled mb-0">
+          <li *ngIf="service.list.length === 0" class="empty-state rounded-4 p-4 text-center text-muted">
+            No saved payment details yet. Fill the form to add your first card.
+          </li>
+          <li *ngFor="let pd of service.list" class="payment-item rounded-4 p-3 mb-3 d-flex align-items-center justify-content-between shadow-sm bg-body">
+            <button type="button" class="list-action flex-grow-1 text-start text-decoration-none border-0 bg-transparent p-0" (click)="populateForm(pd)">
+              <div class="d-flex align-items-center gap-3 mb-2">
+                <span class="card-chip rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center"></span>
+                <div>
+                  <div class="fw-semibold">{{ pd.cardOwnerName }}</div>
+                  <div class="text-muted small">{{ pd.cardNumber }}</div>
+                </div>
+              </div>
+              <div class="d-flex align-items-center gap-3 small text-muted">
+                <span><strong>Expiry:</strong> {{ pd.expirationDate }}</span>
+                <span><strong>CVC:</strong> •••</span>
+              </div>
+            </button>
+
+            <button type="button" class="btn btn-sm btn-outline-danger ms-3 delete-btn" (click)="onDelete(pd.paymentDetailId)">
+              <i class="fa-solid fa-trash-can"></i>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
